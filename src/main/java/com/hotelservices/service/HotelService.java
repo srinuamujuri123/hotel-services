@@ -5,11 +5,15 @@ import com.hotelservices.model.TMSResponse;
 
 public interface HotelService {
 
+	TMSResponse saveOrUpdateHotelDetails(HotelDetails hotelDetails);
+	
+	TMSResponse getHotelDetailsById(Integer id);
+
+	TMSResponse deleteHotelDetailsById(Integer hotelId, boolean status);
+
+	TMSResponse getHotelDetails(Boolean isActive, String search);
+	
 	HotelDetails saveHotelDetails(HotelDetails hotelDetails);
 
-	HotelDetails getHotelDetails(Integer id);
-
-	HotelDetails deleteHotelDetailsById(Integer hotelId, boolean status);
-
-	HotelDetails getHotelDetails(Boolean isActive, String search);
+	HotelDetails findByHotelNameAndCityName(String hotelName, String cityName);
 }

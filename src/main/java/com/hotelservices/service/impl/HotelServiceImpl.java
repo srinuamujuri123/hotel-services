@@ -1,5 +1,6 @@
 package com.hotelservices.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class HotelServiceImpl implements HotelService {
 	HotelDao hotelDao;
 
 	@Override
-	public HotelDetails saveHotelDetails(HotelDetails hotelDetails) {
+	public TMSResponse saveOrUpdateHotelDetails(HotelDetails hotelDetails) {
 		TMSResponse response = new TMSResponse();
 		try {
 			HotelDetails hotelNameObjFromDb = hotelDao.findByHotelName(hotelDetails.getHotelName());
@@ -35,8 +36,9 @@ public class HotelServiceImpl implements HotelService {
 			} else {
 				hotelDetails.setCreatedOn(DateUtils.getTodayDate());
 				hotelDetails.setUpdatedOn(DateUtils.getTodayDate());
+				HotelDetails hotelDetailsDb = saveHotelDetails(hotelDetails);
 				hotelDetails.setActive(true);
-				response.setData(hotelDao.save(hotelDetails));
+				response.setData(hotelDetailsDb);
 				response.setDetails(Hotel.SAVE);
 			}
 			response.setStatus(Status.OK);
@@ -46,11 +48,17 @@ public class HotelServiceImpl implements HotelService {
 			response.setDetails(Hotel.ERROR);
 			response.setStatus(Status.FAILED);
 		}
-		return hotelDetails;
+		return response;
+	}
+	
+
+	public HotelDetails saveHotelDetails(HotelDetails hotelDetails) {
+		return hotelDao.save(hotelDetails);
 	}
 
+
 	@Override
-	public TMSResponse getHotelDetails(Integer hotelId) {
+	public TMSResponse getHotelDetailsById(Integer hotelId) {
 		TMSResponse response = new TMSResponse();
 		try {
 			HotelDetails hotelDetailsById = hotelDao.findByHotelId(hotelId);
@@ -124,5 +132,10 @@ public class HotelServiceImpl implements HotelService {
 			response.setStatus(Status.FAILED);
 		}
 		return response;
+	}
+
+	@Override
+	public HotelDetails findByHotelNameAndCityName(String hotelName, String cityName) {
+		return hotelDao.findByHotelNameAndCityName(hotelName, cityName);
 	}
 }

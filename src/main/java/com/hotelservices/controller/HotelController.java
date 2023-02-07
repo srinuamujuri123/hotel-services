@@ -18,26 +18,39 @@ import com.hotelservices.service.HotelService;
 public class HotelController {
 	@Autowired
 	HotelService hotelService;
-
-	@PostMapping("/save-hotel-details")
-	public HotelDetails saveHotelDetails(@RequestBody HotelDetails hotelDetails) {
-		return hotelService.saveHotelDetails(hotelDetails);
+	
+	@PostMapping("/save-or-hotel-details")
+	public TMSResponse saveOrUpdateHotelDetails(@RequestBody HotelDetails hotelDetails) {
+		return hotelService.saveOrUpdateHotelDetails(hotelDetails);
 	}
 
 	@GetMapping("/get-hotel-details")
-	public HotelDetails getHotelDetails(@RequestParam Boolean isActive, @RequestParam String search) {
+	public TMSResponse getHotelDetails(@RequestParam Boolean isActive, @RequestParam String search) {
 		return hotelService.getHotelDetails(isActive, search);
 	}
 
 	@GetMapping("/get-hotel-details-by-id")
-	public HotelDetails getHotelDetailsById(@RequestParam Integer hotelId) {
-		return hotelService.getHotelDetails(hotelId);
+	public TMSResponse getHotelDetailsById(@RequestParam Integer hotelId) {
+		return hotelService.getHotelDetailsById(hotelId);
 	}
 
 	@DeleteMapping("delete-hotel-details-by-id")
-	public HotelDetails deleteHotelDetailsById(@RequestParam Integer hotelId,
+	public TMSResponse deleteHotelDetailsById(@RequestParam Integer hotelId,
 			@RequestParam(required = false) boolean status) {
 		return hotelService.deleteHotelDetailsById(hotelId, status);
+	}
+	
+	
+	// Internal Rest call
+	@PostMapping("/save-hotel-details")
+	public HotelDetails saveHotelDetails(@RequestBody HotelDetails hotelDetails) {
+		return hotelService.saveHotelDetails(hotelDetails);
+	}
+	
+	
+	@GetMapping("/get-hotel-details-by-hotelname-and-cityname")
+	public HotelDetails findByHotelNameAndCityName(@RequestParam String hotelName, @RequestParam String cityName) {
+		return hotelService.findByHotelNameAndCityName(hotelName, cityName);
 	}
 
 }
