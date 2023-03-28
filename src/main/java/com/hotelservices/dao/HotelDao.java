@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hotelservices.model.HotelDetails;
+import com.tms.client.model.HotelDetails;
 
 @Transactional
 public interface HotelDao extends JpaRepository<HotelDetails, Integer> {

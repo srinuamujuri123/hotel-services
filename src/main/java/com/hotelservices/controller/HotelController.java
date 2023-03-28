@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hotelservices.model.HotelDetails;
-import com.hotelservices.model.TMSResponse;
 import com.hotelservices.service.HotelService;
+import com.tms.client.model.HotelDetails;
+import com.tms.client.model.TMSResponse;
 
 @RestController
 @RequestMapping("/hotel")
 public class HotelController {
 	@Autowired
 	HotelService hotelService;
-	
+
 	@PostMapping("/save-or-hotel-details")
 	public TMSResponse saveOrUpdateHotelDetails(@RequestBody HotelDetails hotelDetails) {
 		return hotelService.saveOrUpdateHotelDetails(hotelDetails);
@@ -39,15 +39,13 @@ public class HotelController {
 			@RequestParam(required = false) boolean status) {
 		return hotelService.deleteHotelDetailsById(hotelId, status);
 	}
-	
-	
+
 	// Internal Rest call
 	@PostMapping("/save-hotel-details")
 	public HotelDetails saveHotelDetails(@RequestBody HotelDetails hotelDetails) {
 		return hotelService.saveHotelDetails(hotelDetails);
 	}
-	
-	
+
 	@GetMapping("/get-hotel-details-by-hotelname-and-cityname")
 	public HotelDetails findByHotelNameAndCityName(@RequestParam String hotelName, @RequestParam String cityName) {
 		return hotelService.findByHotelNameAndCityName(hotelName, cityName);

@@ -1,6 +1,7 @@
 package com.hotelservices.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -8,14 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hotelservices.common.CommonConstants.Hotel;
 import com.hotelservices.dao.HotelDao;
-import com.hotelservices.model.HotelDetails;
-import com.hotelservices.model.TMSResponse;
-import com.hotelservices.model.TMSResponse.Status;
 import com.hotelservices.service.HotelService;
-import com.hotelservices.utils.DateUtils;
-import com.hotelservices.utils.TMSUtils;
+import com.tms.client.common.CommonConstants.Hotel;
+import com.tms.client.model.HotelDetails;
+import com.tms.client.model.TMSResponse;
+import com.tms.client.model.TMSResponse.Status;
+import com.tms.client.utils.DateUtils;
+import com.tms.client.utils.TMSUtils;
 
 @Service
 public class HotelServiceImpl implements HotelService {
@@ -33,8 +34,9 @@ public class HotelServiceImpl implements HotelService {
 			if (isHotelExist) {
 				response.setDetails(Hotel.HOTELEXIST);
 			} else {
-				hotelDetails.setCreatedOn(DateUtils.getTodayDate());
-				hotelDetails.setUpdatedOn(DateUtils.getTodayDate());
+				Date todayDate = DateUtils.getTodayDate();
+				hotelDetails.setCreatedOn(todayDate);
+				hotelDetails.setUpdatedOn(todayDate);
 				HotelDetails hotelDetailsDb = saveHotelDetails(hotelDetails);
 				hotelDetails.setActive(true);
 				response.setData(hotelDetailsDb);
@@ -49,12 +51,10 @@ public class HotelServiceImpl implements HotelService {
 		}
 		return response;
 	}
-	
 
 	public HotelDetails saveHotelDetails(HotelDetails hotelDetails) {
 		return hotelDao.save(hotelDetails);
 	}
-
 
 	@Override
 	public TMSResponse getHotelDetailsById(Integer hotelId) {
